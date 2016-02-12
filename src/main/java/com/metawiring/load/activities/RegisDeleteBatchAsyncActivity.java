@@ -45,9 +45,9 @@ import static com.codahale.metrics.MetricRegistry.name;
  * This should be written in more of a pipeline way, with consumer and producer pools, but not now.
  */
 @SuppressWarnings("ALL")
-public class RegisUpdateBatchAsyncActivity extends BaseActivity implements ActivityContextAware<CQLActivityContext> {
+public class RegisDeleteBatchAsyncActivity extends BaseActivity implements ActivityContextAware<CQLActivityContext> {
 
-    private static Logger logger = LoggerFactory.getLogger(RegisUpdateBatchAsyncActivity.class);
+    private static Logger logger = LoggerFactory.getLogger(RegisDeleteBatchAsyncActivity.class);
 
     private long endCycle, submittedCycle;
     private int pendingRq = 0;
@@ -69,20 +69,9 @@ public class RegisUpdateBatchAsyncActivity extends BaseActivity implements Activ
                 add(
                         new StatementDef(
                                 "write-telemetry",
-                                "update <<KEYSPACE>>.<<TABLE>>_tenfields SET c0 = <<c0>>, c1 = <<c1>>, c2 = <<c2>>, c3 = <<c3>>, c4 = <<c4>>, c5 = <<c5>>, c6 = <<c6>>, c7 = <<c7>>, c8 = <<c8>>, c9 = <<c9>> \n" +
-                                        "     where key=<<key>>;",
+                                "delete from <<KEYSPACE>>.<<TABLE>>_tenfields where key=<<key>>;",
                                 ImmutableMap.<String, String>builder()
                                         .put("key", "ThreadNumGenerator")
-                                        .put("c0", "DateSequenceFieldGenerator:1000:YYYY-MM-dd-HH")
-                                        .put("c1", "LineExtractGenerator:data/variable_words.txt")
-                                        .put("c2", "DateSequenceFieldGenerator:1000:YYYY-MM-dd-HH")
-                                        .put("c3", "LineExtractGenerator:data/variable_words.txt")
-                                        .put("c4", "DateSequenceFieldGenerator:1000:YYYY-MM-dd-HH")
-                                        .put("c5", "LineExtractGenerator:data/variable_words.txt")
-                                        .put("c6", "DateSequenceFieldGenerator:1000:YYYY-MM-dd-HH")
-                                        .put("c7", "LineExtractGenerator:data/variable_words.txt")
-                                        .put("c8", "DateSequenceFieldGenerator:1000:YYYY-MM-dd-HH")
-                                        .put("c9", "LineExtractGenerator:data/variable_words.txt")
                                         .build()
                         )
                 );
@@ -139,12 +128,12 @@ public class RegisUpdateBatchAsyncActivity extends BaseActivity implements Activ
             createSchema();
         }
 
-        timerOps = cqlSharedContext.getExecutionContext().getMetrics().timer(name(RegisUpdateBatchAsyncActivity.class.getSimpleName(), "ops-total"));
-        timerWaits = cqlSharedContext.getExecutionContext().getMetrics().timer(name(RegisUpdateBatchAsyncActivity.class.getSimpleName(), "ops-wait"));
+        timerOps = cqlSharedContext.getExecutionContext().getMetrics().timer(name(RegisDeleteBatchAsyncActivity.class.getSimpleName(), "ops-total"));
+        timerWaits = cqlSharedContext.getExecutionContext().getMetrics().timer(name(RegisDeleteBatchAsyncActivity.class.getSimpleName(), "ops-wait"));
 
-        activityAsyncPendingCounter = cqlSharedContext.getExecutionContext().getMetrics().counter(name(RegisUpdateBatchAsyncActivity.class.getSimpleName(), "async-pending"));
+        activityAsyncPendingCounter = cqlSharedContext.getExecutionContext().getMetrics().counter(name(RegisDeleteBatchAsyncActivity.class.getSimpleName(), "async-pending"));
 
-        triesHistogram = cqlSharedContext.getExecutionContext().getMetrics().histogram(name(RegisUpdateBatchAsyncActivity.class.getSimpleName(), "tries-histogram"));
+        triesHistogram = cqlSharedContext.getExecutionContext().getMetrics().histogram(name(RegisDeleteBatchAsyncActivity.class.getSimpleName(), "tries-histogram"));
 
         // To populate the namespace
         cqlSharedContext.getExecutionContext().getMetrics().meter(name(getClass().getSimpleName(), "exceptions", "PlaceHolderException"));
