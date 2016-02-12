@@ -69,8 +69,8 @@ public class RegisUpdateBatchAsyncActivity extends BaseActivity implements Activ
                 add(
                         new StatementDef(
                                 "write-telemetry",
-                                "update <<KEYSPACE>>.<<TABLE>>_batch_standard SET (key, c0, c1, c2, c3, c4, c5, c6, c7, c8, c9)\n" +
-                                        "     values (<<source>>,<<epoch_hour>>,<<param>>,<<ts>>,<<data>>,<<cycle>>);",
+                                "update <<KEYSPACE>>.<<TABLE>>_batch_standard SET c0 = <<c0>>, c1 = <<c1>>, c2 = <<c2>>, c3 = <<c3>>, c4 = <<c4>>, c5 = <<c5>>, c6 = <<c6>>, c7 = <<c7>>, c8 = <<c8>>, c9 = <<c9>> \n" +
+                                        "     where key=<<key>>;",
                                 ImmutableMap.<String, String>builder()
                                         .put("key", "ThreadNumGenerator")
                                         .put("c0", "DateSequenceFieldGenerator:1000:YYYY-MM-dd-HH")
@@ -180,7 +180,7 @@ public class RegisUpdateBatchAsyncActivity extends BaseActivity implements Activ
                 "    c7 text,  \n" +
                 "    c8 text,  \n" +
                 "    c9 text,  \n" +
-                "    PRIMARY KEY ((source, epoch_hour), param, ts)\n" +
+                "    PRIMARY KEY (key)\n" +
                 "    ) ";
 
         StatementDef tableStmt = new StatementDef("create-table", tableDDL, ImmutableMap.<String, String>builder().build());
