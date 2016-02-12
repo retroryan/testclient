@@ -1,7 +1,7 @@
 dml:
  - name: read-telemetry
    cql: |
-     select * from <<KEYSPACE>>.<<TABLE>>_standard
+     select * from <<KEYSPACE>>.<<TABLE>>_tenfields
      where key=<<key>>
      limit 10
    bindings:

@@ -5,7 +5,7 @@ ddl:
     {'class': 'SimpleStrategy', 'replication_factor': <<RF>>};
 - name: create-telemetry-table
   cql: |
-    create table if not exists <<KEYSPACE>>.<<TABLE>>_standard (
+    create table if not exists <<KEYSPACE>>.<<TABLE>>_tenfields (
       key int,      // data source id
       c0 text,
       c1 text,
@@ -24,7 +24,7 @@ ddl:
 dml:
  - name: write-telemetry
    cql: |
-     insert into <<KEYSPACE>>.<<TABLE>>_standard (key, c0, c1, c2, c3, c4, c5, c6, c7, c8, c9)
+     insert into <<KEYSPACE>>.<<TABLE>>_tenfields (key, c0, c1, c2, c3, c4, c5, c6, c7, c8, c9)
      values (<<key>>,<<c0>>,<<c1>>,<<c2>>,<<c3>>,<<c4>>,<<c5>>,<<c6>>,<<c7>>,<<c8>>,<<c9>>);
    bindings:
      key: ThreadNumGenerator

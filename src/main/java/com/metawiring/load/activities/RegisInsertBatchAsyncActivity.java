@@ -69,7 +69,7 @@ public class RegisInsertBatchAsyncActivity extends BaseActivity implements Activ
                 add(
                         new StatementDef(
                                 "write-telemetry",
-                                "insert into <<KEYSPACE>>.<<TABLE>>_batch_standard (key, c0, c1, c2, c3, c4, c5, c6, c7, c8, c9)\n" +
+                                "insert into <<KEYSPACE>>.<<TABLE>>_tenfields (key, c0, c1, c2, c3, c4, c5, c6, c7, c8, c9)\n" +
                                         "     values (<<key>>,<<c0>>,<<c1>>,<<c2>>,<<c3>>,<<c4>>,<<c5>>,<<c6>>,<<c7>>,<<c8>>,<<c9>>);",
                                 ImmutableMap.<String, String>builder()
                                         .put("key", "ThreadNumGenerator")
@@ -168,7 +168,7 @@ public class RegisInsertBatchAsyncActivity extends BaseActivity implements Activ
                         .build());
 
         String tableDDL = "" +
-                "create table if not exists <<KEYSPACE>>.<<TABLE>>_batch_standard (\n" +
+                "create table if not exists <<KEYSPACE>>.<<TABLE>>_tenfields (\n" +
                 "    key int,  \n" +
                 "    c0 text,  \n" +
                 "    c1 text,  \n" +
