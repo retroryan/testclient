@@ -1,0 +1,8 @@
+dml:
+ - name: read-telemetry
+   cql: |
+     select * from <<KEYSPACE>>.<<TABLE>>_standard
+     where key=<<key>>
+     limit 10
+   bindings:
+     key: ThreadNumGenerator
